@@ -1,9 +1,14 @@
+const body = document.querySelector('body');
 const chatInput = document.querySelector('.chat-input textarea');
 const sendChatBtn = document.querySelector('.chat-input span');
 const chatbox = document.querySelector('.chatbox');
+const chatbotToggler = document.querySelector('.chatbot-toggler');
+const closeBtn = document.querySelector('.chatbot header span');
 
 let userMessage;
-const API_KEY = "";
+const API_KEY = ""; // <-- Add your OpenAI API key here
+
+// Create chat list item
 const createChatLi = (message, className) => {
     const chatLi = document.createElement('li');
     chatLi.classList.add("chat", className);
@@ -11,9 +16,10 @@ const createChatLi = (message, className) => {
         ? `<p>${message}</p>`
         : `<span class="material-icons-sharp">account_circle</span><p class="incoming">${message}</p>`;
     chatLi.innerHTML = chatContent;
-    return chatLi; // Fixed typo
+    return chatLi;
 };
 
+// Get OpenAI response
 const generateResponse = (incomingChatLi) => {
     const API_URL = "https://api.openai.com/v1/chat/completions";
     const messageElement = incomingChatLi.querySelector("p");
@@ -32,18 +38,16 @@ const generateResponse = (incomingChatLi) => {
         })
     };
 
-    // send Post request to API
     fetch(API_URL, requestOptions)
         .then(res => {
             if (res.status === 429) {
-                // Handle "Too Many Requests" error gracefully
                 messageElement.textContent = "Too many requests - please slow down.";
                 throw new Error("Rate limit exceeded");
             }
             return res.json();
         })
         .then(data => {
-            if(data && data.choices && data.choices[0]){
+            if (data && data.choices && data.choices[0]) {
                 messageElement.textContent = data.choices[0].message.content;
             } else {
                 messageElement.textContent = "No response from server.";
@@ -56,13 +60,15 @@ const generateResponse = (incomingChatLi) => {
             console.error(error);
         })
         .finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
-}
+};
 
+// Send user message
 const handleChat = () => {
     userMessage = chatInput.value.trim();
     if (!userMessage) return;
 
     chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+    chatInput.value = "";
     chatbox.scrollTo(0, chatbox.scrollHeight);
 
     setTimeout(() => {
@@ -71,6 +77,17 @@ const handleChat = () => {
         chatbox.scrollTo(0, chatbox.scrollHeight);
         generateResponse(incomingChatLi);
     }, 600);
-}
+};
 
+// Send button click
 sendChatBtn.addEventListener('click', handleChat);
+
+// Toggle chatbot open/close
+chatbotToggler.addEventListener('click', () => {
+    body.classList.toggle('show-chatbot');
+});
+
+// Close button in header (only visible on mobile)
+closeBtn.addEventListener('click', () => {
+    body.classList.remove('show-chatbot');
+});
