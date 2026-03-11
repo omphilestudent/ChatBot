@@ -1,42 +1,57 @@
-import { OpenAIService } from './openai.service';
 import { CodeAnalysis, CodeContext } from '../../models/interfaces/code.interface';
+import { OpenAIService } from './openai.service';
 
-interface LearningSuggestion {
+export interface LearningSuggestion {
   concept: string;
   hint: string;
 }
 
-interface DebugHint {
+export interface DebugHint {
   step: string;
   description: string;
 }
 
 export class EducationalAIService {
-  constructor(private openAI: OpenAIService) {}
+  constructor(private readonly openAI: OpenAIService) {}
 
   async provideLearningSuggestions(code: string, language: string): Promise<LearningSuggestion[]> {
     const analysis: CodeAnalysis = { code, language };
     const prompt = this.buildLearningPrompt(analysis);
-    const suggestions = await this.openAI.complete(prompt);
+    const output = await this.openAI.complete(prompt);
 
-    return [{ concept: 'Code readability', hint: suggestions }];
+    return [
+      {
+        concept: `Learning opportunities in ${language}`,
+        hint: output
+      }
+    ];
   }
 
-  async debugWithHints(_error: Error, _context: CodeContext): Promise<DebugHint[]> {
-    return [{ step: 'Inspect stack trace', description: 'Start with the first app frame.' }];
+  async debugWithHints(error: Error, context: CodeContext): Promise<DebugHint[]> {
+    const debugPrompt = [
+      'Guide me through debugging this error without giving the direct fix.',
+      `Error: ${error.message}`,
+      context.filePath ? `File: ${context.filePath}` : '',
+      context.codeSnippet ? `Code snippet:\n${context.codeSnippet}` : '',
+      'Give step-by-step hints and what to inspect first.'
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+
+    const output = await this.openAI.complete(debugPrompt);
+    return [{ step: 'Investigate error context', description: output }];
   }
 
   private buildLearningPrompt(analysis: CodeAnalysis): string {
-    return `
-      Analyze this code and provide learning suggestions:
-      Code: ${analysis.code}
-      Language: ${analysis.language}
-
-      Rules:
-      - Don't provide direct solutions
-      - Suggest concepts to research
-      - Point to documentation
-      - Ask guiding questions
-    `;
+    return [
+      'Analyze this code and provide learning suggestions.',
+      `Language: ${analysis.language}`,
+      `Code:\n${analysis.code}`,
+      'Rules:',
+      "- Don't provide direct solutions",
+      '- Suggest concepts to research',
+      '- Point to documentation to read',
+      '- Ask guiding questions'
+    ].join('\n');
   }
 }

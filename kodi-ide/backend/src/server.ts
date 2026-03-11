@@ -1,15 +1,14 @@
-import express from 'express';
 import http from 'http';
-import { WebSocketServer } from './websocket/websocket.server';
+import { app } from './app';
 import { config } from './config';
 import { logger } from './utils/logger';
+import { WebSocketServer } from './websocket/websocket.server';
 
-const app = express();
 const server = http.createServer(app);
 const wsServer = new WebSocketServer(server);
 
 wsServer.initialize();
 
 server.listen(config.port, () => {
-  logger.info(`KODI Backend running on port ${config.port}`);
+  logger.info(`KODI backend listening on port ${config.port}`);
 });

@@ -1,4 +1,5 @@
 export const logger = {
-  info: (message: string) => console.log(message),
-  error: (message: string) => console.error(message)
+  info: (message: string, meta?: unknown) => console.log(`[INFO] ${message}`, meta ?? ''),
+  warn: (message: string, meta?: unknown) => console.warn(`[WARN] ${message}`, meta ?? ''),
+  error: (message: string, meta?: unknown) => console.error(`[ERROR] ${message}`, meta ?? '')
 };
