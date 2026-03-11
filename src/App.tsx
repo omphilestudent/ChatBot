@@ -10,9 +10,9 @@ const App = () => {
   return (
     <div className={`app ${activeTheme}`}>
       <header className="topbar">
-        <h1>BizChat Code Studio</h1>
+        <h1>BizChat Dashboard</h1>
         <nav>
-          <NavLink to="/">Editor</NavLink>
+          <NavLink to="/">Home</NavLink>
           <NavLink to="/login">Login</NavLink>
           <NavLink to="/settings">Settings</NavLink>
         </nav>

@@ -1,81 +1,58 @@
-# BizChat React + Flask (TypeScript frontend)
+# BizChat React (TypeScript)
 
-This project is now a **React + TypeScript coding workspace** integrated with a **Flask backend** that proxies chat requests to Ollama.
+This project has been converted into a **React + TypeScript** application using Vite.
 
-## What was fixed
+## Features
 
-- Home page is now an editor-first coding workspace with language templates and AI code review.
-- Frontend sends real `/chat` requests to backend for assistant responses.
-- Environment setup is explicit for both frontend and backend.
-- Unnecessary legacy static chatbot files were removed in prior migration and the remaining code is focused on active app flow.
+- Multi-page UI with React Router:
+  - Home page with richer content.
+  - Login page to connect GitHub/GitLab/Bitbucket (simulated auth state).
+  - Settings page for theme and connection management.
+- Theme support:
+  - **System generated mode** by default (`prefers-color-scheme`).
+  - User can switch to Light or Dark mode in Settings.
+- Developer log behavior:
+  - A simple startup log appears **once per dev server runtime**.
+  - Log resets only when the dev server restarts.
+- TypeScript-first project structure for scalability.
 
-## Architecture
+## Tech Stack
 
-- **Frontend**: Vite + React + TypeScript (`src/`)
-- **Backend**: Flask (`app.py`)
-- **AI runtime**: Ollama model configured by env (`OLLAMA_MODEL`)
+- React 18
+- TypeScript
+- Vite
+- React Router DOM
 
-## Environment setup
+## Getting Started
 
-Copy and update env values:
-
-```bash
-cp .env.example .env
-```
-
-Environment keys:
-
-- `VITE_API_URL`: Base URL used by frontend for backend API calls.
-- `FLASK_PORT`: Port for Flask server.
-- `OLLAMA_MODEL`: Ollama model name used by backend (example: `llama3`).
-- `CORS_ORIGIN`: Allowed frontend origin for backend CORS.
-
-## Run backend
-
-1) Install Python dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-2) Run backend:
-
-```bash
-python app.py
-```
-
-Backend endpoints:
-
-- `GET /health` → backend health + model info
-- `POST /chat` → expects `{ "message": "..." }`
-
-## Run frontend
-
-1) Install JS dependencies:
+### 1) Install dependencies
 
 ```bash
 npm install
 ```
 
-2) Start dev server:
+### 2) Run development server
 
 ```bash
 npm run dev
 ```
 
-3) Build production assets:
+### 3) Build for production
 
 ```bash
 npm run build
 ```
 
-## File structure
+### 4) Preview production build
+
+```bash
+npm run preview
+```
+
+## File Structure
 
 ```text
 .
-├── .env.example
-├── app.py
-├── requirements.txt
 ├── index.html
 ├── package.json
 ├── tsconfig.json
@@ -91,9 +68,16 @@ npm run build
 │   │   ├── HomePage.tsx
 │   │   ├── LoginPage.tsx
 │   │   └── SettingsPage.tsx
-│   ├── services
-│   │   └── chatApi.ts
 │   └── utils
 │       └── devLogger.ts
 └── README.md
 ```
+
+## Notes for Real OAuth Integration
+
+The login page currently simulates provider connections. For production:
+
+1. Register OAuth apps in GitHub/GitLab/Bitbucket.
+2. Add backend endpoints for OAuth redirect and callback.
+3. Store access tokens securely server-side.
+4. Replace localStorage provider simulation with authenticated user sessions.
