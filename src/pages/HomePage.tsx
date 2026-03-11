@@ -1,71 +1,28 @@
-import { FormEvent, useState } from 'react';
-import { getApiBaseUrl, sendChatMessage } from '../services/chatApi';
-
-type ChatItem = {
-  role: 'user' | 'assistant';
-  text: string;
-};
-
 const HomePage = () => {
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [messages, setMessages] = useState<ChatItem[]>([
-    { role: 'assistant', text: 'Welcome to BizChat. Ask me anything about your account workflows.' },
-  ]);
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const trimmed = message.trim();
-    if (!trimmed || loading) return;
-
-    setMessages((prev) => [...prev, { role: 'user', text: trimmed }]);
-    setMessage('');
-    setLoading(true);
-    setError(null);
-
-    try {
-      const reply = await sendChatMessage(trimmed);
-      setMessages((prev) => [...prev, { role: 'assistant', text: reply }]);
-    } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : 'Unknown backend error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <section className="stack">
+    <section className="card-grid">
       <article className="card">
-        <h2>BizChat Assistant</h2>
+        <h2>Welcome to BizChat</h2>
         <p>
-          Frontend is now integrated with the Flask backend. API base URL:
-          <strong> {getApiBaseUrl()}</strong>
+          This React + TypeScript version gives you a cleaner structure for scaling your assistant,
+          account tools, and future integrations.
         </p>
       </article>
-
-      <article className="card chat-card">
-        <div className="chat-window">
-          {messages.map((item, index) => (
-            <p key={`${item.role}-${index}`} className={`bubble ${item.role}`}>
-              {item.text}
-            </p>
-          ))}
-        </div>
-
-        <form onSubmit={handleSubmit} className="chat-form">
-          <input
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-            placeholder="Type your message..."
-            aria-label="Chat message"
-          />
-          <button type="submit" disabled={loading}>
-            {loading ? 'Sending...' : 'Send'}
-          </button>
-        </form>
-
-        {error ? <p className="error-text">{error}</p> : null}
+      <article className="card">
+        <h3>Highlights</h3>
+        <ul>
+          <li>Modern React routing between pages.</li>
+          <li>System-driven dark/light theme with user override.</li>
+          <li>Version control login status persisted in local storage.</li>
+          <li>Simple developer startup log that prints once per server run.</li>
+        </ul>
+      </article>
+      <article className="card">
+        <h3>Next ideas</h3>
+        <p>
+          Connect your backend chat endpoint, add OAuth callbacks for provider login, and start
+          storing user-level preferences in an API.
+        </p>
       </article>
     </section>
   );
