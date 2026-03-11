@@ -1,0 +1,103 @@
+:root {
+  --bg: #f6f7fb;
+  --text: #101828;
+  --card: #ffffff;
+  --accent: #1166cc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app.dark {
+  --bg: #0f172a;
+  --text: #e2e8f0;
+  --card: #1e293b;
+  --accent: #60a5fa;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.topbar nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.topbar a {
+  color: var(--text);
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.topbar a.active {
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 1;
+}
+
+.page-shell {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+button.active {
+  outline: 2px solid #22c55e;
+}
+
+.button-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.status {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
