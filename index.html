@@ -1,40 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Banking Chatbot</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet"/>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body class="show-chatbot">
-
-  <!-- Toggle -->
-  <button class="chatbot-toggler">
-    <span class="material-icons-sharp">mode_comment</span>
-    <span class="material-icons-sharp">close</span>
-  </button>
-
-  <!-- Chatbot UI -->
-  <div class="chatbot">
-    <header>
-      <h2>BIZCHAT</h2>
-      <span class="material-icons-sharp">close</span>
-    </header>
-    <ul class="chatbox">
-      <li class="chat incoming">
-        <span class="material-icons-sharp">account_circle</span>
-        <p>Welcome to Bizchat, how can I assist.</p>
-      </li>
-    </ul>
-    <div class="chat-input">
-      <textarea placeholder="Type your message here..." required></textarea>
-      <span id="send-btn" class="material-icons-sharp">send</span>
-    </div>
-  </div>
-
-
-  <script src="chatbot.js"></script>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BizChat React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
